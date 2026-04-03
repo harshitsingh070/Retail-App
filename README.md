@@ -1,15 +1,23 @@
-# Meridian Home & Lifestyle - Retail System
+# 🏠 Meridian Home & Lifestyle - Retail Application
 
-A full-stack retail application with FastAPI backend, React frontend, JWT authentication, inventory management, billing system, and AI-powered product recommendations.
+A full-stack retail system with FastAPI backend, React frontend, JWT authentication, inventory management, billing system, and AI-powered product recommendations.
 
-## 🎯 Features
+## ✨ Key Features
 
-✅ **User Authentication** - JWT-based login with admin/user roles  
-✅ **Inventory Management** - View products, track stock quantities  
-✅ **Billing System** - Shopping cart, checkout with inventory deduction  
-✅ **AI Recommendations** - Category-based product suggestions  
-✅ **Role-Based Access Control** - Admin and user permissions  
-✅ **Protected Routes** - All endpoints require valid JWT token  
+### 🟢 User Features
+- ✅ **User Authentication** - JWT-based login with email/password
+- ✅ **View Inventory** - Browse all products with prices and stock levels
+- ✅ **Shopping Cart** - Add items to cart (persisted in localStorage)
+- ✅ **Billing & Checkout** - Order review and checkout with automatic inventory deduction
+- ✅ **Product Recommendations** - AI-powered suggestions based on category and cross-sell
+- ✅ **Role-Based Access** - Users cannot access admin features
+
+### 🔴 Admin Features
+- ✅ **All User Features** - Admins can do everything users can
+- ✅ **Add Products** - Create new products with the inventory form
+- ✅ **View Transactions** - See all orders from all users
+- ✅ **Sales Summary** - Total sales and transaction count dashboard
+- ✅ **Admin Panel** - Dedicated admin interface with transaction history
 
 ---
 
@@ -17,14 +25,14 @@ A full-stack retail application with FastAPI backend, React frontend, JWT authen
 
 ```
 Meridian Home & Lifestyle/
-├── backend/
+┌── backend/
 │   ├── main.py                 # FastAPI app entry point
-│   ├── database.py             # PostgreSQL connection & SQLAlchemy
+│   ├── database.py             # SQLite connection & SQLAlchemy
 │   ├── models.py               # ORM models (User, Product, Inventory, Transaction)
 │   ├── schemas.py              # Pydantic request/response models
 │   ├── auth.py                 # JWT token & password hashing
 │   ├── deps.py                 # Dependency injection (get_current_user, get_admin_user)
-│   ├── seed.sql                # Database setup & sample data
+│   ├── seed.py                 # Database seeding with sample data
 │   ├── requirements.txt         # Python dependencies
 │   └── routes/
 │       ├── auth.py             # Login & logout endpoints
@@ -62,11 +70,11 @@ Meridian Home & Lifestyle/
 ### Prerequisites
 - Python 3.8+
 - Node.js 16+ & npm
-- PostgreSQL 12+ (running locally)
+- SQLite (included with Python)
 
 ---
 
-## 1️⃣ Backend Setup
+## Backend Setup
 
 ### Step 1: Install Python Dependencies
 
@@ -75,30 +83,24 @@ cd backend
 pip install -r requirements.txt
 ```
 
-### Step 2: Create PostgreSQL Database
-
-Open PostgreSQL console and run:
-
-```sql
-CREATE DATABASE retail;
-```
-
-Then execute the seed script:
+### Step 2: Seed Database
 
 ```bash
-psql -U postgres -d retail -f seed.sql
+python seed.py
 ```
 
 This will:
+- Create SQLite database (retail.db)
 - Create all tables (users, products, inventory, transactions)
-- Seed sample products (Sofa, Cushion, Table, Lamp, Rug)
-- Add demo users (admin, user1)
+- Seed sample data:
+  - 2 demo users (admin, user1)
+  - 5 demo products (Sofa, Cushion, Table, Lamp, Rug)
+  - Initial inventory: 10 units per product
 
 ### Step 3: Run Backend Server
 
 ```bash
-cd backend
-uvicorn main:app --reload
+python main.py
 ```
 
 Backend will be available at: **http://localhost:8000**
@@ -107,7 +109,7 @@ API documentation: **http://localhost:8000/docs** (interactive Swagger UI)
 
 ---
 
-## 2️⃣ Frontend Setup
+## Frontend Setup
 
 ### Step 1: Install Node Dependencies
 
@@ -135,7 +137,7 @@ Frontend will be available at: **http://localhost:5173**
 
 ---
 
-## 📋 API Endpoints
+## 📊 API Endpoints
 
 ### Authentication
 - `POST /auth/login` - Login with credentials, returns JWT token
@@ -222,31 +224,42 @@ Example:
 
 ## 🐛 Troubleshooting
 
-### PostgreSQL Connection Error
+### Database Already Seeded
 ```
-Error: could not connect to database "retail"
+✓ Database already seeded. Skipping...
 ```
-**Fix**: Make sure PostgreSQL is running and database `retail` exists
+This is normal - database is already populated. To reset:
 ```bash
-psql -U postgres -c "CREATE DATABASE retail;"
+rm backend/retail.db
+python backend/seed.py
 ```
+
+### Port Already in Use
+- Backend (8000): Kill process on port 8000
+  ```bash
+  # Windows
+  netstat -ano | findstr :8000
+  ```
+- Frontend (5173): Will automatically use next available port (5174, 5175, etc.)
 
 ### Frontend Can't Connect to Backend
 ```
 Error: Failed to fetch / CORS error
 ```
-**Fix**: Make sure backend is running on http://localhost:8000 and CORS is enabled in `main.py`
+**Fix**: Make sure backend is running on http://localhost:8000
+```bash
+cd backend
+python main.py
+```
 
 ### "Invalid token" on Protected Routes
-**Fix**: Make sure you copied the JWT token from login response and it's in the Authorization header
-
-### Port Already in Use
-- Backend (8000): `netstat -ano | findstr :8000` (Windows)
-- Frontend (5173): `netstat -ano | findstr :5173` (Windows)
+**Fix**: Make sure you're logged in and JWT token is stored in localStorage
+- Open DevTools (F12) → Application → Storage → localStorage
+- Check if "token" key exists
 
 ---
 
-## 📝 Demo Script (Testing Checklist)
+## ✅ Testing Checklist
 
 Use this script to verify all features work:
 
@@ -277,19 +290,118 @@ Use this script to verify all features work:
 
 ---
 
-## 🔧 Environment Variables
+## 🔧 Configuration
 
-Currently using hardcoded values in `auth.py`:
+### Backend Config (`backend/auth.py`)
 ```python
 SECRET_KEY = "your-secret-key-change-in-production"
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/retail"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 ```
 
-To use .env file (optional):
+### Database Config (`backend/database.py`)
+```python
+# Using SQLite for development
+DATABASE_URL = "sqlite:///./retail.db"
+
+# Switch to PostgreSQL for production
+# DATABASE_URL = "postgresql://user:password@localhost:5432/retail"
 ```
-JWT_SECRET=your-secret-key
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/retail
+
+### Frontend API (`frontend/src/api/client.js`)
+```javascript
+const client = axios.create({
+  baseURL: 'http://localhost:8000',
+});
 ```
+
+---
+
+## 📚 Project Documentation
+
+- **IMPLEMENTATION_PLAN.md** - Detailed implementation guide
+- **FEATURES_IMPLEMENTED.md** - Complete feature breakdown
+- **QUICK_START.md** - Quick start guide
+- **IMPLEMENTATION_COMPLETE.md** - Technical architecture
+
+---
+
+## 🔒 Security Notes
+
+- JWT tokens expire after 30 minutes
+- Passwords are hashed with bcrypt
+- All routes require valid JWT (except login)
+- Admin routes check role permission
+- CORS enabled for frontend communication
+- Atomic database transactions prevent partial updates
+
+---
+
+## 📈 Technology Stack
+
+### Backend
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy** - ORM for database
+- **Pydantic** - Data validation
+- **Python-jose** - JWT handling
+- **Passlib & Bcrypt** - Password hashing
+- **Uvicorn** - ASGI server
+
+### Frontend
+- **React 18** - UI library
+- **React Router v6** - Routing
+- **Vite** - Build tool
+- **Axios** - HTTP client
+- **CSS3** - Responsive styling
+
+### Database
+- **SQLite** - Development
+- **PostgreSQL compatible** - Ready for production
+
+---
+
+## 🚀 Deployment
+
+To deploy to production:
+
+1. **Update environment variables**
+   ```bash
+   export ALGORITHM=HS256
+   export SECRET_KEY=your-production-secret-key
+   export DATABASE_URL=postgresql://...
+   ```
+
+2. **Build frontend**
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+3. **Run backend**
+   ```bash
+   cd backend
+   gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+   ```
+
+4. **Serve frontend** from `/dist` folder
+
+---
+
+## 📝 License
+
+MIT License
+
+---
+
+## 👨‍💻 Author
+
+Created as a full-stack retail application prototype
+
+---
+
+**Status**: ✅ Fully Implemented & Ready for Testing
+
+Last Updated: April 3, 2026
 
 ---
 
@@ -387,5 +499,6 @@ For issues or questions, check the IMPLEMENTATION_PLAN.md for detailed phase-by-
 - Add order tracking & notifications
 
 Good luck! 🚀
-#   R e t a i l - A p p  
+#   R e t a i l - A p p 
+ 
  
