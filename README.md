@@ -5,7 +5,7 @@ A full-stack retail system with FastAPI backend, React frontend, JWT authenticat
 ## ✨ Key Features
 
 ### 🟢 User Features
-- ✅ **User Authentication** - JWT-based login with email/password
+- ✅ **User Authentication** - JWT-based login with username/password
 - ✅ **View Inventory** - Browse all products with prices and stock levels
 - ✅ **Shopping Cart** - Add items to cart (persisted in localStorage)
 - ✅ **Billing & Checkout** - Order review and checkout with automatic inventory deduction
@@ -387,9 +387,9 @@ To deploy to production:
 
 ---
 
-## 📝 License
+## 📄 License
 
-MIT License
+MIT License - Feel free to use for learning and commercial purposes.
 
 ---
 
@@ -401,7 +401,7 @@ Created as a full-stack retail application prototype
 
 **Status**: ✅ Fully Implemented & Ready for Testing
 
-Last Updated: April 3, 2026
+Last Updated: 2026-04-03
 
 ---
 
@@ -467,12 +467,6 @@ CREATE TABLE transactions (
 
 ---
 
-## 📄 License
-
-MIT License - Feel free to use for learning and commercial purposes.
-
----
-
 ## 🎓 What You'll Learn
 
 - FastAPI backend development
@@ -499,6 +493,3 @@ For issues or questions, check the IMPLEMENTATION_PLAN.md for detailed phase-by-
 - Add order tracking & notifications
 
 Good luck! 🚀
-#   R e t a i l - A p p 
- 
- 
