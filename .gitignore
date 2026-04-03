@@ -1,0 +1,106 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# Python environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Vite
+dist/
+.vite/
+
+# SQLite Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Frontend specific
+frontend/dist/
+frontend/node_modules/
+frontend/.env.local
+
+# Backend specific
+backend/__pycache__/
+backend/.pytest_cache/
+backend/venv/
+
+# Project specific
+retail.db
+.idea/
+.vscode/
+
+# Git
+.git/
+
+FEATURES_IMPLEMENTED.md
+IMPLEMENTATION_COMPLETE.md
+IMPLEMENTATION_PLAN.md
+QUICK_START.md
+README_CURRENT_STATUS.md

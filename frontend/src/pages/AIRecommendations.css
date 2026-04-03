@@ -1,0 +1,85 @@
+.recommendations-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-form input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-form button {
+  padding: 12px 30px;
+  background-color: #667eea;
+  color: white;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.search-form button:hover:not(:disabled) {
+  background-color: #764ba2;
+}
+
+.recommendations h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.recommendations strong {
+  color: #667eea;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.recommendation-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-4px);
+}
+
+.recommendation-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.recommendation-card .reason {
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.no-recommendations {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+}
