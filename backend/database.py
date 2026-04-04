@@ -1,20 +1,17 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# SQLite for development (easiest to test without PostgreSQL setup)
-# To use PostgreSQL: "postgresql://postgres:postgres@localhost:5432/retail"
-DATABASE_URL = "sqlite:///./retail.db"
+# PostgreSQL connection string
+# Format: postgresql://username:password@host:port/database
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:postgres@localhost:5712/retail"
+)
 
 # Create SQLAlchemy engine
-if "sqlite" in DATABASE_URL:
-    engine = create_engine(
-        DATABASE_URL, 
-        echo=False,
-        connect_args={"check_same_thread": False}
-    )
-else:
-    engine = create_engine(DATABASE_URL, echo=False)
+engine = create_engine(DATABASE_URL, echo=False)
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

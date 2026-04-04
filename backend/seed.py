@@ -1,15 +1,11 @@
 """
 Seed script to populate the database with initial data
-Works with both SQLite and PostgreSQL
+Works with PostgreSQL
 """
 
 from database import engine, SessionLocal, Base
 from models import User, Product, Inventory
-import hashlib
-
-def simple_hash(password):
-    """Simple password hash for demo purposes"""
-    return hashlib.sha256(password.encode()).hexdigest()
+from auth import hash_password
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -30,12 +26,12 @@ try:
     # Seed users (demo: admin/admin123, user1/user123)
     admin_user = User(
         username="admin",
-        password=simple_hash("admin123"),
+        password=hash_password("admin123"),
         role="admin"
     )
     user1 = User(
         username="user1",
-        password=simple_hash("user123"),
+        password=hash_password("user123"),
         role="user"
     )
     db.add(admin_user)
