@@ -5,6 +5,8 @@ from models import User
 from auth import decode_token
 from typing import Optional
 
+
+
 def get_db():
     """Get database session"""
     db = SessionLocal()
@@ -12,6 +14,8 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
 
 def get_token_from_header(authorization: Optional[str] = Header(None)) -> str:
     """Extract token from Authorization header"""
@@ -24,6 +28,7 @@ def get_token_from_header(authorization: Optional[str] = Header(None)) -> str:
     
     # Expected format: "Bearer <token>"
     parts = authorization.split()
+    
     if len(parts) != 2 or parts[0].lower() != "bearer":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -43,7 +48,7 @@ def get_current_user(
     if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
+            detail="Invalid or expired tokens",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
@@ -67,7 +72,7 @@ def get_current_user(
 
 def get_admin_user(current_user: User = Depends(get_current_user)) -> User:
     """Get current user and verify admin role"""
-    if current_user.role != "admin":
+    if current_user.role != "Admin":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required"
