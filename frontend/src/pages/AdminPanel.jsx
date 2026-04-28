@@ -12,6 +12,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
+
       try {
         setLoading(true);
         const response = await client.get('/billing/transactions');
@@ -27,6 +28,7 @@ export default function AdminPanel() {
         setLoading(false);
       }
     };
+
 
     fetchTransactions();
   }, [navigate]);
@@ -81,6 +83,7 @@ export default function AdminPanel() {
             </table>
           </div>
         )}
+
 
         <div className="admin-stats">
           <div className="stat-card">
